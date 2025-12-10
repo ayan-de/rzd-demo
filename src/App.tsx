@@ -5,6 +5,12 @@ import {
   UpdateBanner,
   UpdatePrompt,
 } from 'react-zero-downtime-build';
+import {
+  CURRENT_VERSION,
+  CURRENT_BUILD_ID,
+  CURRENT_COMMIT,
+  CURRENT_BUILD_TIME,
+} from './version';
 import './index.css';
 
 function DemoContent() {
@@ -14,30 +20,33 @@ function DemoContent() {
   React.useEffect(() => {
     if (updateAvailable) {
       setShowPrompt(true);
+    } else {
+      // Reset modal when no update is available
+      setShowPrompt(false);
     }
   }, [updateAvailable]);
 
   return (
     <div className="container">
-      <UpdateBanner
+      {/* <UpdateBanner
         show={updateAvailable}
         onRefresh={reload}
         onHardRefresh={hardReload}
         position="top"
         message="A new build is available. Refresh to stay updated."
-      />
+      /> */}
 
       <UpdatePrompt
         show={showPrompt}
         onRefresh={reload}
         onHardRefresh={hardReload}
         onDismiss={() => setShowPrompt(false)}
-        message="A new version is ready. Reload to apply updates."
+        message="A brand new version is ready. Reload to apply updates."
       />
 
       <header>
-        <h1>React Zero Downtime Build Demo</h1>
-        <p>Simulate zero-downtime updates with version checks every 30s.</p>
+        <h1>React Zero Downtime Build Demo - Version 7 🚀</h1>
+        <p>Simulate zero-downtime updates with version checks every 5s. This is the NEW version Ayan!</p>
       </header>
 
       <section className="panel">
@@ -74,7 +83,13 @@ function DemoContent() {
 
 export default function App() {
   return (
-    <VersionProvider intervalMs={5000}>
+    <VersionProvider
+      intervalMs={5000}
+      currentVersion={CURRENT_VERSION}
+      currentBuildId={CURRENT_BUILD_ID}
+      currentCommit={CURRENT_COMMIT}
+      currentBuildTime={CURRENT_BUILD_TIME}
+    >
       <DemoContent />
     </VersionProvider>
   );
